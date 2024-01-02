@@ -1,4 +1,3 @@
-#!/bin/bash
+#!/bin/bashi
 python3 $PYFILE
-sudo apt-get install dos2unix
 dos2unix "0-run"
