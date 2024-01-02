@@ -1,2 +1,3 @@
 #!/bin/bash
 python3 $PYFILE
+sudo apt-get install dos2unix
