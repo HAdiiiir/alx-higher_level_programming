@@ -1,3 +1,2 @@
 #!/bin/bashi
 python3 $PYFILE
-dos2unix "0-run"
