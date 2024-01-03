@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-for character in range(122, 96, -1):
-    if (character % 2 == 0):
-        print("{}".format(chr(character)), end="")
-    else:
-        print("{}".format(chr(character - 32)), end="")
+
+for i in range(0, 26, 2):
+    print("{:c}{:c}".format(122 - i, (122 - i - 1) - 32), end='')
