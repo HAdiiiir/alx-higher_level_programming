@@ -1,4 +1,8 @@
 #!/usr/bin/python3
 
-for char in range(ord('Z'), ord('A') - 1, -1):
-    print("{}{}".format(chr(char).lower(), chr(char)), end="")
+for i in range(122, 96, -1):
+    if i % 2 == 0:
+        a = i
+    else:
+        a = i - 32
+    print("{}".format(chr(a)), end="")
