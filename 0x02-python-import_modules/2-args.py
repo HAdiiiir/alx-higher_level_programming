@@ -1,21 +1,23 @@
 #!/usr/bin/python3
 import sys
 
-if __name__ != "__main__":
-    exit()
+def print_argvs(args):
+    """Prints the number and list of arguments.
 
-argStr = "{:d} argument"
-argc = len(sys.argv) - 1
-if argc == 0:
-    argStr += 's.'
-elif argc == 1:
-    argStr += ':'
-else:
-    argStr += 's:'
-print(argStr.format(argc))
+    Args:
+        args: A list of arguments.
+    """
 
-i = 0
-for arg in sys.argv:
-    if i != 0:
-        print("{:d}: {:s}".format(i, arg))
-    i += 1
+    number_of_args = len(args)
+    if number_of_args == 0:
+        print("0 arguments.")
+    elif number_of_args == 1:
+        print(f"1 argument:")
+        print(f"1: {args[0]}")
+    else:
+        print(f"{number_of_args} arguments:")
+        for i in range(number_of_args):
+            print(f"{i + 1}: {args[i]}")
+
+if __name__ == "__main__":
+    print_argvs(sys.argv[1:])
