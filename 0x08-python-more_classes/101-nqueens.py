@@ -1,110 +1,120 @@
-"""this module is for rectangle class
-    """
+#!/usr/bin/python3
+"""10. N queens"""
+
+import sys
 
 
-class Rectangle:
-    """rectangle class to calculate size
-    """
+def create_new_board(n):
+    """Function that creates new nxn sized chessboard with 0's."""
 
-    number_of_instances = 0
-    print_symbol = "#"
+    board = []
+    [board.append([]) for i in range(n)]
+    [row.append(' ') for i in range(n) for row in board]
+    return (board)
 
-    def _init_(self, width=0, height=0):
-        """initiation
-        Args:
-            width: int >0
-            height: int > 0
-        """
-        if not isinstance(width, (int)):
-            raise TypeError("width must be an integer")
-        elif width < 0:
-            raise ValueError("width must be >= 0")
-        else:
-            self.__width = width
-        if not isinstance(height, (int)):
-            raise TypeError("height must be an integer")
-        elif height < 0:
-            raise ValueError("height must be >= 0")
-        else:
-            self.__height = height
-        Rectangle.number_of_instances += 1
 
-    @property
-    def width(self):
-        return self.__width
+def copy_board(board):
+    """Function that returns deepcopy of board"""
 
-    @property
-    def height(self):
-        return self.__height
+    if isinstance(board, list):
+        return list(map(copy_board, board))
 
-    @width.setter
-    def width(self, value):
-        if not isinstance(value, (int)):
-            raise TypeError("width must be an integer")
-        elif value < 0:
-            raise ValueError("width must be >= 0")
-        else:
-            self.__width = value
+    return (board)
 
-    @height.setter
-    def height(self, value):
-        if not isinstance(value, (int)):
-            raise TypeError("height must be an integer")
-        elif value < 0:
-            raise ValueError("height must be >= 0")
-        else:
-            self.__height = value
 
-    def area(self):
-        """return rectangle area
-        """
-        return self._height * self._width
+def find_method(board):
+    """Function that finds solution for the Queen"""
 
-    def perimeter(self):
-        """returns rectangle perimeter
-        """
-        if self._width == 0 or self._height == 0:
-            return 0
-        return (self._width + self._height) * 2
+    method = []
+    for pos in range(len(board)):
+        for position in range(len(board)):
+            if board[pos][position] == "Q":
+                method.append([pos, position])
+                break
 
-    def _str_(self):
-        """represent the object in string when called
+    return (method)
 
-        Returns:
-            area with str stored in print_symbol
-        """
-        prn = ""
-        if self._height == 0 or self._width == 0:
-            return prn
-        for i in range(self.__height):
-            prn += str(self.print_symbol) * self.__width + "\n"
-        return prn[:-1]
 
-    def _repr_(self):
-        """represent the object in string when called
+def invalid_moves(board, row, col):
+    """Function that shows invalid moves for Queen"""
 
-        Returns:
-            area with #
-        """
-        return f"Rectangle{self._width, self._height}"
+    for position in range(col + 1, len(board)):
+        board[row][position] = "x"
 
-    @staticmethod
-    def bigger_or_equal(rect_1, rect_2):
-        if not isinstance(rect_1, Rectangle):
-            raise TypeError("rect_1 must be an instance of Rectangle")
-        if not isinstance(rect_2, Rectangle):
-            raise TypeError("rect_2 must be an instance of Rectangle")
-        if rect_1.area() >= rect_2.area():
-            return rect_1
-        else:
-            return rect_2
+    for position in range(col - 1, -1, -1):
+        board[row][position] = "x"
 
-    @classmethod
-    def square(cls, size=0):
-        return cls(size, size)
+    for pos in range(row + 1, len(board)):
+        board[pos][col] = "x"
 
-    def _del_(self):
-        """deleting message
-        """
-        Rectangle.number_of_instances -= 1
-        print("Bye rectangle...")
+    for pos in range(row - 1, -1, -1):
+        board[pos][col] = "x"
+
+    c_pos = col + 1
+    for pos in range(row + 1, len(board)):
+        if c_pos >= len(board):
+            break
+
+        board[pos][c_pos] = "x"
+        c_pos += 1
+
+    c_pos = col - 1
+    for pos in range(row - 1, -1, -1):
+        if c_pos < 0:
+            break
+
+        board[pos][c_pos]
+        c_pos -= 1
+
+    c_pos = col + 1
+    for pos in range(row - 1, -1, -1):
+        if c_pos >= len(board):
+            break
+
+        board[pos][c_pos] = "x"
+        c_pos += 1
+
+    c_pos = col - 1
+    for pos in range(row + 1, len(board)):
+        if c_pos < 0:
+            break
+
+        board[pos][c_pos] = "x"
+        c_pos -= 1
+
+
+def correct_method(board, row, queens, solutions):
+    """Function that solves puzzle with recursion"""
+
+    if queens == len(board):
+        solutions.append(find_method(board))
+        return (solutions)
+
+    for position in range(len(board)):
+        if board[row][position] == " ":
+            tmp_board = copy_board(board)
+            tmp_board[row][position] = "Q"
+            invalid_moves(tmp_board, row, position)
+            solutions = correct_method(
+                    tmp_board, row + 1, queens + 1, solutions)
+
+    return (solutions)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
+
+    if sys.argv[1].isdigit() is False:
+        print("N must be a number")
+        sys.exit(1)
+
+    if int(sys.argv[1]) < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    board = create_new_board(int(sys.argv[1]))
+    methods = correct_method(board, 0, 0, [])
+    for sol in methods:
+        print(sol)
