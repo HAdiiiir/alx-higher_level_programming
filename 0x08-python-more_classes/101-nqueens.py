@@ -1,161 +1,110 @@
-#!/usr/bin/python3
-"""Solves the N-queens puzzle.
-
-Determines all possible solutions for placing N non-attacking queens on an NxN chessboard.
-
-Example:
-    $ ./101-nqueens.py N
-
-N must be an integer greater than or equal to 4.
-
-Attributes:
-    board (list): A list of lists representing the chessboard.
-    solutions (list): A list of lists containing solutions.
-
-Solutions are represented in the format [[r, c], [r, c], [r, c], [r, c]],
-where `r` and `c` represent the row and column, respectively, where a queen must be placed on the chessboard.
-"""
-import sys
-
-
-def init_board(n):
-    """Initialize an `n`x`n` sized chessboard with 0's.
-
-    Args:
-        n (int): The size of the chessboard.
-
-    Returns:
-        list: The initialized chessboard.
+"""this module is for rectangle class
     """
-    board = []
-    [board.append([]) for _ in range(n)]
-    [row.append(' ') for _ in range(n) for row in board]
-    return board
 
 
-def board_deepcopy(board):
-    """Return a deepcopy of a chessboard.
-
-    Args:
-        board (list): The chessboard to be copied.
-
-    Returns:
-        list: A deep copy of the chessboard.
+class Rectangle:
+    """rectangle class to calculate size
     """
-    if isinstance(board, list):
-        return list(map(board_deepcopy, board))
-    return board
 
+    number_of_instances = 0
+    print_symbol = "#"
 
-def get_solution(board):
-    """Return the list of lists representation of a solved chessboard.
+    def _init_(self, width=0, height=0):
+        """initiation
+        Args:
+            width: int >0
+            height: int > 0
+        """
+        if not isinstance(width, (int)):
+            raise TypeError("width must be an integer")
+        elif width < 0:
+            raise ValueError("width must be >= 0")
+        else:
+            self.__width = width
+        if not isinstance(height, (int)):
+            raise TypeError("height must be an integer")
+        elif height < 0:
+            raise ValueError("height must be >= 0")
+        else:
+            self.__height = height
+        Rectangle.number_of_instances += 1
 
-    Args:
-        board (list): The chessboard with queens placed.
+    @property
+    def width(self):
+        return self.__width
 
-    Returns:
-        list: A list of queen positions in the format [[r, c], [r, c], [r, c], [r, c]].
-    """
-    solution = []
-    for r in range(len(board)):
-        for c in range(len(board)):
-            if board[r][c] == "Q":
-                solution.append([r, c])
-                break
-    return solution
+    @property
+    def height(self):
+        return self.__height
 
+    @width.setter
+    def width(self, value):
+        if not isinstance(value, (int)):
+            raise TypeError("width must be an integer")
+        elif value < 0:
+            raise ValueError("width must be >= 0")
+        else:
+            self.__width = value
 
-def xout(board, row, col):
-    """X out spots on a chessboard.
+    @height.setter
+    def height(self, value):
+        if not isinstance(value, (int)):
+            raise TypeError("height must be an integer")
+        elif value < 0:
+            raise ValueError("height must be >= 0")
+        else:
+            self.__height = value
 
-    All spots where non-attacking queens can no
-    longer be placed are marked with 'x'.
+    def area(self):
+        """return rectangle area
+        """
+        return self._height * self._width
 
-    Args:
-        board (list): The current working chessboard.
-        row (int): The row where a queen was last placed.
-        col (int): The column where a queen was last placed.
-    """
-    # X out all forward spots
-    for c in range(col + 1, len(board)):
-        board[row][c] = "x"
-    # X out all backward spots
-    for c in range(col - 1, -1, -1):
-        board[row][c] = "x"
-    # X out all spots below
-    for r in range(row + 1, len(board)):
-        board[r][col] = "x"
-    # X out all spots above
-    for r in range(row - 1, -1, -1):
-        board[r][col] = "x"
-    # X out all spots diagonally down to the right
-    c = col + 1
-    for r in range(row + 1, len(board)):
-        if c >= len(board):
-            break
-        board[r][c] = "x"
-        c += 1
-    # X out all spots diagonally up to the left
-    c = col - 1
-    for r in range(row - 1, -1, -1):
-        if c < 0:
-            break
-        board[r][c] = "x"
-        c -= 1
-    # X out all spots diagonally up to the right
-    c = col + 1
-    for r in range(row - 1, -1, -1):
-        if c >= len(board):
-            break
-        board[r][c] = "x"
-        c += 1
-    # X out all spots diagonally down to the left
-    c = col - 1
-    for r in range(row + 1, len(board)):
-        if c < 0:
-            break
-        board[r][c] = "x"
-        c -= 1
+    def perimeter(self):
+        """returns rectangle perimeter
+        """
+        if self._width == 0 or self._height == 0:
+            return 0
+        return (self._width + self._height) * 2
 
+    def _str_(self):
+        """represent the object in string when called
 
-def recursive_solve(board, row, queens, solutions):
-    """Recursively solve an N-queens puzzle.
+        Returns:
+            area with str stored in print_symbol
+        """
+        prn = ""
+        if self._height == 0 or self._width == 0:
+            return prn
+        for i in range(self.__height):
+            prn += str(self.print_symbol) * self.__width + "\n"
+        return prn[:-1]
 
-    Args:
-        board (list): The current working chessboard.
-        row (int): The current working row.
-        queens (int): The current number of placed queens.
-        solutions (list): A list of lists containing solutions.
+    def _repr_(self):
+        """represent the object in string when called
 
-    Returns:
-        list: A list of lists representing the solutions.
-    """
-    if queens == len(board):
-        solutions.append(get_solution(board))
-        return solutions
+        Returns:
+            area with #
+        """
+        return f"Rectangle{self._width, self._height}"
 
-    for c in range(len(board)):
-        if board[row][c] == " ":
-            tmp_board = board_deepcopy(board)
-            tmp_board[row][c] = "Q"
-            xout(tmp_board, row, c)
-            solutions = recursive_solve(tmp_board, row + 1, queens + 1, solutions)
+    @staticmethod
+    def bigger_or_equal(rect_1, rect_2):
+        if not isinstance(rect_1, Rectangle):
+            raise TypeError("rect_1 must be an instance of Rectangle")
+        if not isinstance(rect_2, Rectangle):
+            raise TypeError("rect_2 must be an instance of Rectangle")
+        if rect_1.area() >= rect_2.area():
+            return rect_1
+        else:
+            return rect_2
 
-    return solutions
+    @classmethod
+    def square(cls, size=0):
+        return cls(size, size)
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-    if not sys.argv[1].isdigit():
-        print("N must be a number")
-        sys.exit(1)
-    if int(sys.argv[1]) < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    board = init_board(int(sys.argv[1]))
-    solutions = recursive_solve(board, 0, 0, [])
-    for sol in solutions:
-        print(sol)
+    def _del_(self):
+        """deleting message
+        """
+        Rectangle.number_of_instances -= 1
+        print("Bye rectangle...")
