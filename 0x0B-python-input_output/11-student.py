@@ -1,54 +1,30 @@
 #!/usr/bin/python3
-"""Module defining the class Student based on 10-student.py"""
+import sys
+import io
 
+#input = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+#with open(input, "r", encoding="utf-8") as file:
+ #   for line in file:
+  #      print(line)
 
-class Student:
-    """
-    Class that defines properties of student.
+#input = io.TextIOWrapper(sys.stdin , encoding='utf-8')
 
-    Attributes:
-        first_name (str): first name of student.
-        last_name (int): last name of student.
-        age (int): age of student.
-    """
-    def __init__(self, first_name, last_name, age):
-        """Creates new instances of Student.
-
-        Args:
-            first_name (str): first name of student.
-            last_name (int): last name of student.
-            age (int): age of student.
-        """
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
-
-    def to_json(self, attrs=None):
-        """Retrieves a dictionary representation of a Student instance.
-
-        If attrs is a list of strings, only attribute names contained in,
-        this list must be retrieved.
-        Otherwise, all attributes must be retrieved.
-
-        Returns:
-            dict: dictionary representation.
-        """
-        if attrs is None:
-            return self.__dict__
-
-        new_dict = {}
-        for item in attrs:
-            try:
-                new_dict[item] = self.__dict__[item]
-            except Exception:
-                pass
-        return new_dict
-
-    def reload_from_json(self, json):
-        """Replaces all attributes of the Student instance.
-
-        Args:
-            json (dict): json object.
-        """
-        # print("Type json --> {}".format(type(json)))
-        self.__dict__.update(json)
+dictstatus = {}
+totalsize = 0
+totalcount = 0
+for line in sys.stdin:
+    split = line.split()
+    status = split[-2]
+    totalsize += int(split[-1])
+    if status in dictstatus.keys():
+        dictstatus[status] += 1
+    else:
+        dictstatus[status] = 1
+    totalcount += 1
+    if totalcount == 10:
+        sortme = sorted(dictstatus.keys())
+        print("File size:", totalsize)
+        for keys in sortme:
+            print("{}: {}".format(keys, dictstatus[keys]))
+        totalcount = 0
+        continue
