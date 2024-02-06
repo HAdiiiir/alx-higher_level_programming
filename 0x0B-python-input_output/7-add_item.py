@@ -1,18 +1,17 @@
 #!/usr/bin/python3
-"""modules imported"""
-import json
-import sys
+"""Module that loads, adds and saves arguments to a Python list"""
+from sys import argv
 
 
-save_file = __import__('5-save_to_json_file.py').save_to_json_file
-load_file = __import__('6-load_from_json_file.py').load_from_json_file
+load_file = __import__('6-load_from_json_file').load_from_json_file
+save_file = __import__('5-save_to_json_file').save_to_json_file
 
-
-file = "add_item.json"
 try:
-    new = load_file(file)
-except (FileNotFoundError, ValueError):
-    new = []
-for args in sys.argv[1:]:
-    new.append(args)
-save_file(new, file)
+    json_list = load_file('add_item.json')
+except (ValueError, FileNotFoundError):
+    json_list = []
+
+for item in argv[1:]:
+    json_list.append(item)
+
+save_file(json_list, 'add_item.json')
