@@ -1,53 +1,92 @@
 #!/usr/bin/python3
-"""Defines a square class."""
+"""This is a Square class"""
 from models.rectangle import Rectangle
+"""superclass Rectangle"""
 
 
 class Square(Rectangle):
-    """Represent a square, which is a special rectangle."""
-
+    """class Square"""
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialize a new Square.
-
+        """initialize instance attributes
         Args:
-            size (int): The size of the square.
-            x (int, optional): The x-coordinate of the square's position.
-            y (int, optional): The y-coordinate of the square's position.
-            id (int, optional): The identity of the square.
+            size (int): size
+            x (int): x
+            y (int): y
+            id (int): id
         """
-        super().__init__(size, size, x, y, id)  # Call the super class with size for width and height
+        super().__init__(size, size, x, y, id)
+        self.width = size
+        self.height = size
 
     def __str__(self):
-        """Return a string representation of the Square."""
-        return "[Square] ({}) {}/{} - {}".format(
-            self.id, self.x, self.y, self.width)
+        """returns string
+        Returns:
+            string
+        """
+        return "[{:s}] ({:d}) {:d}/{:d} - {:d}".format(
+            type(self).__name__, self.id, self.x, self.y, self.width)
 
-    def area(self):
-        """Return the area of the square."""
-        return self.width ** 2
+    @property
+    def size(self):
+        """get size
+        Returns:
+            size
+        """
+        return self.width
 
-    def perimeter(self):
-        """Return the perimeter of the square."""
-        return 4 * self.width
+    @size.setter
+    def size(self, value):
+        """set size
+        Args:
+            value (int): size
+        """
+        self.width = value
+        self.height = value
 
     def update(self, *args, **kwargs):
-        """Update the attributes of the Square."""
-        if args:
-            attrs = ["id", "size", "x", "y"]
-            for attr, value in zip(attrs, args):
-                setattr(self, attr, value)
-        elif kwargs:
-            for key, value in kwargs.items():
-                setattr(self, key, value)
+        """assign attributes
+        Args:
+            args (int): arguments to send a non-keyworded variable
+                length argument list to the function
+            kwargs (dict): keyworded variable length of arguments
+        """
+        if args is not None and len(args) != 0:
+            for i in range(len(args)):
+                if i == 0:
+                    self.id = args[i]
+                elif i == 1:
+                    self.width = args[i]
+                    self.height = args[i]
+                elif i == 2:
+                    self.x = args[i]
+                elif i == 3:
+                    self.y = args[i]
+        elif kwargs is not None and len(kwargs) != 0:
+            for key in kwargs:
+                if key == "id":
+                    self.id = kwargs[key]
+                elif key == "size":
+                    self.width = kwargs[key]
+                    self.height = kwargs[key]
+                elif key == "x":
+                    self.x = kwargs[key]
+                elif key == "y":
+                    self.y = kwargs[key]
 
     def to_dictionary(self):
-        """Return the dictionary representation of the Square."""
-        return {
-            'id': self.id,
-            'size': self.size,
-            'x': self.x,
-            'y': self.y
-        }
-def perimeter(self):
-    """Return the perimeter of the square."""
-    return 4 * self.width
+        """create dictionary representation of a square
+        Returns:
+            dictionary representation of a Square
+        """
+        a_dict = {"id": 0, "size": 0, "x": 0, "y": 0}
+        for key in a_dict:
+            if key == "id":
+                a_dict[key] = self.id
+            elif key == "size":
+                a_dict[key] = self.width
+                a_dict[key] = self.height
+            elif key == "x":
+                a_dict[key] = self.x
+            elif key == "y":
+                a_dict[key] = self.y
+        return a_dict
