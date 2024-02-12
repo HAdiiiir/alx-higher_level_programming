@@ -1,73 +1,53 @@
 #!/usr/bin/python3
-""" Module that contains class Square,
-inheritance of class Rectangle
-"""
+"""Defines a square class."""
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """ Class Rectangle """
+    """Represent a square, which is a special rectangle."""
 
     def __init__(self, size, x=0, y=0, id=None):
-        """ Initializes instances """
-        super().__init__(size, size, x, y, id)
+        """Initialize a new Square.
+
+        Args:
+            size (int): The size of the square.
+            x (int, optional): The x-coordinate of the square's position.
+            y (int, optional): The y-coordinate of the square's position.
+            id (int, optional): The identity of the square.
+        """
+        super().__init__(size, size, x, y, id)  # Call the super class with size for width and height
 
     def __str__(self):
-        """ str special method """
-        str_square = "[Square] "
-        str_id = "({}) ".format(self.id)
-        str_xy = "{}/{} - ".format(self.x, self.y)
-        str_wh = "{}/{}".format(self.width, self.height)
+        """Return a string representation of the Square."""
+        return "[Square] ({}) {}/{} - {}".format(
+            self.id, self.x, self.y, self.width)
 
-        return str_square + str_id + str_xy + str_wh
+    def area(self):
+        """Return the area of the square."""
+        return self.width ** 2
 
-    @property
-    def size(self):
-        """ Getter size """
-        return self.width
-
-    @size.setter
-    def size(self, value):
-        """ Setter size """
-        self.width = value
-        self.height = value
-
-    def __str__(self):
-        """ str special method """
-        str_rectangle = "[Square] "
-        str_id = "({}) ".format(self.id)
-        str_xy = "{}/{} - ".format(self.x, self.y)
-        str_size = "{}".format(self.size)
-
-        return str_rectangle + str_id + str_xy + str_size
+    def perimeter(self):
+        """Return the perimeter of the square."""
+        return 4 * self.width
 
     def update(self, *args, **kwargs):
-        """ update method """
-        if args is not None and len(args) is not 0:
-            list_atr = ['id', 'size', 'x', 'y']
-            for i in range(len(args)):
-                if list_atr[i] == 'size':
-                    setattr(self, 'width', args[i])
-                    setattr(self, 'height', args[i])
-                else:
-                    setattr(self, list_atr[i], args[i])
-        else:
+        """Update the attributes of the Square."""
+        if args:
+            attrs = ["id", "size", "x", "y"]
+            for attr, value in zip(attrs, args):
+                setattr(self, attr, value)
+        elif kwargs:
             for key, value in kwargs.items():
-                if key == 'size':
-                    setattr(self, 'width', value)
-                    setattr(self, 'height', value)
-                else:
-                    setattr(self, key, value)
+                setattr(self, key, value)
 
     def to_dictionary(self):
-        """ Returns a dictionary with attributes """
-        list_atr = ['id', 'size', 'x', 'y']
-        dict_res = {}
-
-        for key in list_atr:
-            if key == 'size':
-                dict_res[key] = getattr(self, 'width')
-            else:
-                dict_res[key] = getattr(self, key)
-
-        return dict_res
+        """Return the dictionary representation of the Square."""
+        return {
+            'id': self.id,
+            'size': self.size,
+            'x': self.x,
+            'y': self.y
+        }
+def perimeter(self):
+    """Return the perimeter of the square."""
+    return 4 * self.width
