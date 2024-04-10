@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Searches the second biggest integer in the list of arguments
 

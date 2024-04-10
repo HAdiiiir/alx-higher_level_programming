@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Function that increments and calls another function
 

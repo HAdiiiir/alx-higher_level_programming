@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Replaces values 12 to 89
 

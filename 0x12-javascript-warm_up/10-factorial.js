@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Computes and prints a factorial recursively
 
