@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 from sqlalchemy import Column, Integer, String, text
 from sqlalchemy.orm import relationship

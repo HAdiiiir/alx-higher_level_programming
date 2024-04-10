@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 from sqlalchemy import Column, Integer, String, text, ForeignKey
 from relationship_state import Base
