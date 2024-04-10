@@ -1,3 +1,3 @@
-class Rectangle {
-  // Empty class definition
-}
+
+#!/usr/bin/node
+module.exports = class Rectangle {};
