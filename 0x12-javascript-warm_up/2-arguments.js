@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 function printnumArgs(argv) {
   if (process.argv.length === 2) {

@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Prints x times 'C is fun'
 

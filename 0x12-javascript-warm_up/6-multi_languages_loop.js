@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Uses an array to loop through and print strings
 

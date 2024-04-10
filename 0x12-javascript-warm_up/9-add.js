@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Prints the addition of 2 integers
 

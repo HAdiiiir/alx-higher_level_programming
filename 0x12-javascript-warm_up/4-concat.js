@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 // Prints two arguments passed to it with 'is' in between
 
