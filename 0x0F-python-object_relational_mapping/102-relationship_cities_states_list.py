@@ -1,24 +1,35 @@
 #!/usr/bin/python3
-"""This is the City module.
-
-Contains the City class that inherits from Base = declarative_base()
 """
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.sql.schema import ForeignKey
-from relationship_state import Base
+Script that lists all `City` objects from the database `hbtn_0e_101_usa`.
+
+Arguments:
+    mysql username (str)
+    mysql password (str)
+    database name (str)
+"""
+
+import sys
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import Session
+from sqlalchemy.engine.url import URL
+from relationship_state import Base, State
+from relationship_city import City
 
 
-class City(Base):
-    """This class links to the `cities` table of our database.
+if __name__ == "__main__":
+    mySQL_u = sys.argv[1]
+    mySQL_p = sys.argv[2]
+    db_name = sys.argv[3]
 
-    Attributes:
-        id (int): id of the city.
-        name (str): name of the city.
-        state_id (int): id of the associated state.
-    """
+    url = {'drivername': 'mysql+mysqldb', 'host': 'localhost',
+           'username': mySQL_u, 'password': mySQL_p, 'database': db_name}
 
-    __tablename__ = 'cities'
+    engine = create_engine(URL(**url), pool_pre_ping=True)
+    Base.metadata.create_all(engine)
 
-    id = Column(Integer, autoincrement=True, nullable=False, primary_key=True)
-    name = Column(String(128), nullable=False)
-    state_id = Column(Integer, ForeignKey('states.id'), nullable=False)
+    session = Session(bind=engine)
+
+    cities = session.query(City)
+
+    for city in cities:
+        print("{}: {} -> {}".format(city.id, city.name, city.state.name))
