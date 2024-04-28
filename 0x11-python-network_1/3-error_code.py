@@ -1,15 +1,23 @@
 #!/usr/bin/python3
-"""
-Script that takes in a URL, send a request to URL, and dispaly body
-"""
+"""Send a request to the url and print the response"""
+
+from urllib import request, error
+from sys import argv
+
+
+def request_header_property(url: str) -> str:
+    """
+    Send a request to the URL specified and
+    get the response and handle exceptions
+    Args:
+        url (str): The URL to query
+    """
+    try:
+        with request.urlopen(url) as response:
+            return response.read().decode('utf-8')
+    except error.HTTPError as e:
+        return "Error code: {}".format(e.code)
 
 
 if __name__ == "__main__":
-    import sys
-    from urllib import request, error
-
-    try:
-        with request.urlopen(sys.argv[1]) as resp:
-            print(resp.read().decode('UTF-8'))
-    except error.HTTPError as er:
-        print('Error code:', er.code)
+    print(request_header_property(argv[1]))
