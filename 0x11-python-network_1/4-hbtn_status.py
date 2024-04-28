@@ -11,13 +11,12 @@ from requests import get
 def get_alx_intranet(url='https://alx-intranet.hbtn.io/status'):
     """
     Send a GET request to the url
-    and print the response
+    and print the reponse
     """
     res = get(url)
     print("Body response:")
-    print("\t- type:", type(res))
     print("\t- type: {}".format(str(res).__class__))
-    print("\t- content:", res.text)
+    print("\t- content: {}".format(res.text))
 
 
 if __name__ == "__main__":
